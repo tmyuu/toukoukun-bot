@@ -35,8 +35,6 @@ async function postDailyTask() {
   console.log("Bot is starting to post daily tasks...");
 
   client.once("ready", async () => {
-    console.log("Bot is online!");
-
     const sections = Object.keys(tasks);
     while (sections.length > 0) {
       const currentSection = sections.shift();
