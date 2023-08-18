@@ -17,8 +17,6 @@ function postWeeklyTask2() {
   console.log("Bot is starting to post weekly tasks...");
 
   client.once("ready", async () => {
-    console.log("Bot is online!");
-
     const sections = Object.keys(tasks);
     while (sections.length > 0) {
       const currentSection = sections.shift();
