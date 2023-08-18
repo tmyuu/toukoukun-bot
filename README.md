@@ -24,5 +24,5 @@ Copy and paste the following content into `token.json`:
 ### Step 3: Run the Bot
 Once you have set up your token in the token.json file, you can run your bot using the following command:
 ```
-node kanri-kun.js
+node toukou-kun.js
 ```
