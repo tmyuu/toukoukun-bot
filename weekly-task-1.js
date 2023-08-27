@@ -15,38 +15,35 @@ const tasks = {
   ],
 };
 
-function postWeeklyTask1() {
+async function postWeeklyTask1() {
   console.log("Bot is starting to post weekly tasks...");
 
-  client.once("ready", async () => {
-    const sections = Object.keys(tasks);
-    while (sections.length > 0) {
-      const currentSection = sections.shift();
+  if (!client.readyAt) {
+    console.log("Client is not ready yet, waiting...");
+    await new Promise((resolve) => client.once("ready", resolve));
+  }
 
-      const embed = new MessageEmbed()
-        .setTitle(currentSection)
-        .setColor("#0099ff")
-        .setDescription(
-          tasks[currentSection]
-            .map((item) => `${item.emoji} ${item.task}`)
-            .join("\n")
-        );
+  const sections = Object.keys(tasks);
+  for (const currentSection of sections) {
+    const embed = new MessageEmbed()
+      .setTitle(currentSection)
+      .setColor("#0099ff")
+      .setDescription(
+        tasks[currentSection]
+          .map((item) => `${item.emoji} ${item.task}`)
+          .join("\n")
+      );
 
-      const taskMessage = await client.channels.cache
-        .get(token.DISCORD_CH_ID)
-        .send({ embeds: [embed] });
+    const taskMessage = await client.channels.cache
+      .get(token.DISCORD_CH_ID)
+      .send({ embeds: [embed] });
 
-      const allTasks = tasks[currentSection];
-      while (allTasks.length > 0) {
-        const currentTask = allTasks.shift();
-        await taskMessage.react(currentTask.emoji);
-      }
+    for (const currentTask of tasks[currentSection]) {
+      await taskMessage.react(currentTask.emoji);
     }
-
-    client.destroy();
-  });
-
-  client.login(token.DISCORD_BOT_TOKEN);
+  }
 }
+
+client.login(token.DISCORD_BOT_TOKEN);
 
 module.exports = postWeeklyTask1;
