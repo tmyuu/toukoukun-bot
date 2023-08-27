@@ -18,6 +18,7 @@ const tasks = {
 async function postWeeklyTask1() {
   console.log("Bot is starting to post weekly tasks...");
 
+  // クライアントが準備完了しているか確認します
   if (!client.readyAt) {
     console.log("Client is not ready yet, waiting...");
     await new Promise((resolve) => client.once("ready", resolve));
